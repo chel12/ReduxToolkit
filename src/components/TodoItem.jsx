@@ -7,7 +7,6 @@ const TodoItem = ({ id, completed, text }) => {
 
 	return (
 		<li key={id}>
-			{/* чтобы работал checked, нужно ещё добавить обработчик для этого onChange */}
 			<input
 				type="checkbox"
 				checked={completed}

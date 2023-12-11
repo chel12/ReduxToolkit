@@ -8,7 +8,7 @@ const todoSlice = createSlice({
 		addTodo(state, action) {
 			state.todos.push({
 				id: new Date().toISOString(),
-				text: action.payload.text, //текст это - взять из экшена в полезной загрузке. что взять?  -{текст}
+				text: action.payload.text, 
 				completed: false,
 			});
 		},
@@ -27,10 +27,5 @@ const todoSlice = createSlice({
 });
 
 export const { addTodo, removeTodo, toggleTodoCompleted } = todoSlice.actions;
-//чтобы юзать экшены. Нужно обратиться к слайсу.экшен
-//экшены автоматом делаюются в тоолките
-//нам нужно только деструктизировать их
-
-//! Кроме этого нужно достать ещё редьюсер
 export default todoSlice.reducer;
-//в пейлоад приходит то что отдаём в фунукцию
+
