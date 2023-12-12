@@ -1,13 +1,13 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import InputField from './components/InputField';
 import TodoList from './components/TodoList';
 import { useDispatch } from 'react-redux';
 import { addTodo } from './store/todoSlice';
 
-function App() {
 
+function App() {
 	const dispatch = useDispatch();
 
 	const addTask = () => {
@@ -16,7 +16,7 @@ function App() {
 	};
 
 	const [text, setText] = useState('');
-	
+
 	return (
 		<div className="App">
 			<InputField
