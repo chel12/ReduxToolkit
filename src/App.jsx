@@ -4,7 +4,7 @@ import './App.css';
 import InputField from './components/InputField';
 import TodoList from './components/TodoList';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTodo, fetchTodos } from './store/todoSlice';
+import { addNewTodo, addTodo, fetchTodos } from './store/todoSlice';
 
 function App() {
 	const dispatch = useDispatch();
@@ -13,14 +13,9 @@ function App() {
 
 	const handleAction = () => {
 		if (text.trim().length) {
-			dispatch(addTodo({ text }));
+			dispatch(addNewTodo( text ));
 			setText('');
 		}
-	};
-
-	const addTask = () => {
-		dispatch(addTodo({ text }));
-		setText('');
 	};
 
 	//ссанку для запроса
@@ -33,14 +28,13 @@ function App() {
 			<InputField
 				text={text}
 				handleInput={setText}
-				handleSubmit={addTask}
+				handleSubmit={handleAction}
 			/>
 
 			{status === 'loading' && <h2>Loading....</h2>}
 			{error && <h2>An error occured: {error}</h2>}
 
 			<TodoList />
-			
 		</div>
 	);
 }
