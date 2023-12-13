@@ -3,19 +3,30 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import InputField from './components/InputField';
 import TodoList from './components/TodoList';
-import { useDispatch } from 'react-redux';
-import { addTodo } from './store/todoSlice';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { addTodo, fetchTodos } from './store/todoSlice';
 
 function App() {
 	const dispatch = useDispatch();
+	const [text, setText] = useState('');
+	const { status, error } = useSelector((state) => state.todos);
+
+	const handleAction = () => {
+		if (text.trim().length) {
+			dispatch(addTodo({ text }));
+			setText('');
+		}
+	};
 
 	const addTask = () => {
 		dispatch(addTodo({ text }));
 		setText('');
 	};
 
-	const [text, setText] = useState('');
+	//ссанку для запроса
+	useEffect(() => {
+		dispatch(fetchTodos());
+	}, [dispatch]);
 
 	return (
 		<div className="App">
@@ -24,7 +35,12 @@ function App() {
 				handleInput={setText}
 				handleSubmit={addTask}
 			/>
+
+			{status === 'loading' && <h2>Loading....</h2>}
+			{error && <h2>An error occured: {error}</h2>}
+
 			<TodoList />
+			
 		</div>
 	);
 }

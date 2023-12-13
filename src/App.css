@@ -40,7 +40,7 @@ ul {
 	list-style: none;
 }
 li {
-	font-size: 100px;
+	font-size: 24px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
