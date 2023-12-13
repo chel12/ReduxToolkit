@@ -34,7 +34,7 @@ export const deleteTodo = createAsyncThunk(
 				`https://jsonplaceholder.typicode.com/todos/${id}`,
 				{ method: 'DELETE' }
 			);
-			
+
 			if (!response.ok) {
 				throw new Error('Can `t delete task. Server error.');
 			}
@@ -45,6 +45,41 @@ export const deleteTodo = createAsyncThunk(
 		}
 	}
 );
+
+export const toggleStatus = createAsyncThunk(
+	'todos/toggleStatus',
+	async function (id, { rejectWithValue, dispatch, getState }) {
+		//найти тудушку
+		const todo = getState().todos.todos.find((todo) => todo.id === id);
+		try {
+			const response = await fetch(
+				`https://jsonplaceholder.typicode.com/todos/${id}`,
+				{
+					method: 'PATCH', //метод обновления
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					//изменять статус но для этого надо его получить через гет стейт
+					body: JSON.stringify({
+						completed: !todo.completed,
+					}),
+				}
+			);
+			if (!response.ok) {
+				throw new Error('Can `t toggle status. Server error.');
+			}
+
+			dispatch(toggleTodoCompleted({ id }));
+		} catch (error) {
+			return rejectWithValue(error.message);
+		}
+	}
+);
+
+const setError = (state, action) => {
+	state.status = 'reject';
+	state.error = action.payload;
+};
 
 const todoSlice = createSlice({
 	name: 'todos',
@@ -87,11 +122,15 @@ const todoSlice = createSlice({
 			})
 			//обработка отловленной ошибки
 			.addCase(fetchTodos.rejected, (state, action) => {
-				state.status = 'rejected';
-				state.error = action.payload;
+				setError(state, action);
+			})
+			.addCase(deleteTodo.rejected, (state, action) => {
+				setError(state, action);
+			})
+			.addCase(toggleStatus.rejected, (state, action) => {
+				setError(state, action);
 			});
 	},
-
 	//Старый синтаксис
 	// extraReducers: {
 	// 	//динамический ключ с названием метода (pending - загрузка)
