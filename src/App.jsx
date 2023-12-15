@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import './App.css';
-import { useGetGoodsQuery, useAddProductMutation } from './redux';
+import {
+	useGetGoodsQuery,
+	useAddProductMutation,
+	useDeleteProductMutation,
+} from './redux';
 
 function App() {
 	//строка для хука
@@ -13,6 +17,12 @@ function App() {
 	//хук,на мутацию не требует делать запрос сразу, а только при необходимости
 	//произвольное имя и чет ещё
 	const [addProduct, { isError }] = useAddProductMutation(); //асинхрон
+	//хук удаления, мутация
+	const [deleteProduct] = useDeleteProductMutation();
+	//хендлер для удлаения
+	const handleDeleteProduct = async (id) => {
+		await deleteProduct(id).unwrap();
+	};
 	//функция для добавления
 	const handleAddProduct = async () => {
 		if (newProduct) {
@@ -48,7 +58,11 @@ function App() {
 			</div>
 			<ul>
 				{data.map((item) => (
-					<li key={item.id}>{item.name}</li>
+					<li
+						key={item.id}
+						onClick={() => handleDeleteProduct(item.id)}>
+						{item.name}
+					</li>
 				))}
 			</ul>
 		</div>

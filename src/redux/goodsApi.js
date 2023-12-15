@@ -43,9 +43,21 @@ export const goodsApi = createApi({
 			invalidatesTags: [{ type: 'Products', id: 'LIST' }], // то есть говорим что изменился список сущности, и тогда он заного запрос за продуктами делает
 			//не надо делать синхрон состояний, оно живёт у нас на сервере и перерисовывает. Сервер как источник истины
 		}),
+		deleteProduct: build.mutation({
+			query: (id) => ({
+				url: `goods/${id}`,
+				method: 'DELETE',
+			}),
+			invalidatesTags: [{ type: 'Products', id: 'LIST' }],
+		}),
 	}),
 });
 //сделать деструктр и вытащить хуки
 //use хук GetGoods наш запрос Query (без мутации )
 //use хук AddProductMutation наш запрос mutation (с мутацией )
-export const { useGetGoodsQuery, useAddProductMutation } = goodsApi;
+// и так далее
+export const {
+	useGetGoodsQuery,
+	useAddProductMutation,
+	useDeleteProductMutation,
+} = goodsApi;
