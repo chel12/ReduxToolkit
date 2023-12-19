@@ -6,8 +6,8 @@ import TodoList from './components/TodoList';
 import { useDispatch } from 'react-redux';
 import { addTodo } from './store/todoSlice';
 
-function App() {
 
+function App() {
 	const dispatch = useDispatch();
 
 	const addTask = () => {
@@ -16,7 +16,7 @@ function App() {
 	};
 
 	const [text, setText] = useState('');
-	
+
 	return (
 		<div className="App">
 			<InputField
@@ -30,3 +30,6 @@ function App() {
 }
 
 export default App;
+
+//redux persist - синхронизация с локал сторе, после обновы страницы чтобы не пропадала инфа
+//кеширование в локал сторе
