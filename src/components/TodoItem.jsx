@@ -1,24 +1,19 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteTodo, toggleStatus } from '../store/todoSlice';
+import { Checkbox, Text, CloseButton, HStack } from '@chakra-ui/react';
+import { toggleComplete, removeTodo } from '../store/todoSlice';
 
-const TodoItem = ({ id, completed, title }) => {
+const TodoItem = ({ id, text, completed }) => {
 	const dispatch = useDispatch();
 
 	return (
-		<li key={id}>
-			<input
-				type="checkbox"
+		<HStack spacing={3}>
+			<Checkbox
 				checked={completed}
-				onChange={() => dispatch(toggleStatus(id))}
+				onChange={() => dispatch(toggleComplete({ id }))}
 			/>
-			<span>{title}</span>
-			<span
-				className="delete"
-				onClick={() => dispatch(deleteTodo({ id }))}>
-				&#8722;
-			</span>
-		</li>
+			<Text>{text}</Text>
+			<CloseButton onClick={() => dispatch(removeTodo({ id }))} />
+		</HStack>
 	);
 };
 

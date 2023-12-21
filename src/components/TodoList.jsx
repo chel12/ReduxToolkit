@@ -1,15 +1,19 @@
-import React from 'react';
-import TodoItem from './TodoItem';
 import { useSelector } from 'react-redux';
+import { VStack } from '@chakra-ui/react';
+
+import TodoItem from './TodoItem';
+import { selectTodosByFilter } from '../store/selectors';
 
 const TodoList = () => {
-	const todos = useSelector((state) => state.todos.todos);
+	const todos = useSelector(selectTodosByFilter);
+	console.log('render todos');
+
 	return (
-		<ul>
+		<VStack spacing={2} mt={4}>
 			{todos.map((todo) => (
 				<TodoItem key={todo.id} {...todo} />
 			))}
-		</ul>
+		</VStack>
 	);
 };
 
